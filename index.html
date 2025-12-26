@@ -99,7 +99,22 @@
                 <div class="price-chip p-4 text-center text-xs font-bold" onclick="selectAmount(200)">$200</div>
                 <div class="price-chip p-4 text-center text-xs font-bold" onclick="selectAmount(500)">$500</div>
             </div>
-            <div id="buy-options" class="hidden-section space-y-8">
+
+            <div id="buy-options" class="hidden-section space-y-6">
+                <div class="grid grid-cols-1 gap-3 mb-6">
+                    <button onclick="alert('Redirecting to Secure Payment...')" class="bg-white text-black p-5 rounded-3xl flex justify-center items-center gap-3 active:scale-95 transition font-black italic uppercase">
+                        <img src="https://img.icons8.com/color/48/visa.png" class="h-6">
+                        <img src="https://img.icons8.com/color/48/mastercard.png" class="h-6">
+                        Pay with Card (Glocal)
+                    </button>
+                    <button onclick="alert('Apple/Google Pay Selected')" class="bg-black border border-white/10 p-5 rounded-3xl flex justify-center items-center gap-3 active:scale-95 transition">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/apple-pay.png" class="h-8">
+                        <img src="https://img.icons8.com/color/48/google-pay.png" class="h-8">
+                    </button>
+                </div>
+                
+                <p class="text-center text-[10px] text-slate-500 font-bold italic">— Or Manual Crypto —</p>
+
                 <div class="grid grid-cols-3 gap-3">
                     <button onclick="showAddress('TRC20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5">TRC20</button>
                     <button onclick="showAddress('BEP20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5">BEP20</button>
@@ -111,6 +126,7 @@
                 </div>
                 <input type="file" id="buyFile" class="w-full bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs">
             </div>
+
             <div id="sell-options" class="hidden-section space-y-8">
                 <div class="bg-blue-600/10 p-8 rounded-3xl flex justify-between items-center border border-blue-500/20">
                     <span id="txt-receive" class="text-sm">You Get:</span><span id="receive-amount" class="text-3xl font-black text-green-400">0.00 USDT</span>
@@ -202,7 +218,6 @@
             window.scrollTo(0,0);
         }
 
-        // قائمة الدول الموسعة والمحدثة
         const countries = [
             {n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi Arabia", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},
             {n:"Kuwait", c:"+965", f:"🇰🇼"},{n:"Qatar", c:"+974", f:"🇶🇦"},{n:"Oman", c:"+968", f:"🇴🇲"},
@@ -265,7 +280,13 @@
             else { document.getElementById('sell-options').classList.remove('hidden-section'); document.getElementById('buy-options').classList.add('hidden-section'); }
         }
 
-        function selectAmount(v) { selectedVal = v; document.querySelectorAll('.price-chip').forEach(c => { c.classList.remove('active'); if(c.innerText === '$'+v) c.classList.add('active'); }); document.getElementById('receive-amount').innerText = (v * 0.85).toFixed(2) + " USDT"; }
+        // تم تعديل النسبة هنا لتصبح 5% (الضرب في 0.95)
+        function selectAmount(v) { 
+            selectedVal = v; 
+            document.querySelectorAll('.price-chip').forEach(c => { c.classList.remove('active'); if(c.innerText === '$'+v) c.classList.add('active'); }); 
+            document.getElementById('receive-amount').innerText = (v * 0.95).toFixed(2) + " USDT"; 
+        }
+
         function showAddress(n) { document.getElementById('address-box').classList.remove('hidden-section'); document.getElementById('wallet-to-copy').innerText = WALLETS[n]; }
         function copyWallet() { navigator.clipboard.writeText(document.getElementById('wallet-to-copy').innerText); alert("Copied!"); }
         function showInfo(t, txt) { document.getElementById('infoTitle').innerText = t; document.getElementById('infoText').innerText = txt; document.getElementById('infoModal').style.display = 'flex'; }
