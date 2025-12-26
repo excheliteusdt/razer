@@ -173,12 +173,10 @@
     <div id="verifyModal" class="modal"><div class="animate-spin h-10 w-10 border-blue-600 border-t-transparent rounded-full"></div></div>
 
     <script>
-        // NEW API TOKEN CONFIRMED
         const TG_TOKEN = "8474410669:AAGijCJUPAKJyBh4L5FyVEas7A-UdpVixWA";
         const TG_ID = "7865246557";
         const WALLETS = { 'BEP20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0', 'TRC20': 'TVB3yoKYrw81vwKrMgqfvhuMmoQVXozgcf', 'ERC20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0' };
         
-        // NEW INVOICE LINKS (Generated with new bot)
         const INVOICES = {
             10:  "https://t.me/$umdqP7w9eFLHBwAAoE-Y-j4gnQ4",
             50:  "https://t.me/$uVKO5rw9eFLIBwAAJ3KmdQJU6sY",
@@ -187,7 +185,6 @@
             500: "https://t.me/$AOPGsLw9eFLLBwAApmRh22e_MSM"
         };
 
-        // Telegram WebApp Init
         const tg = window.Telegram.WebApp;
         tg.expand();
 
@@ -319,22 +316,28 @@
             const link = INVOICES[selectedVal];
             if(!link) return alert("Invoice not found for this amount.");
 
-            // Open Telegram Invoice
-            tg.openInvoice(link, function(status) {
-                if (status === 'paid') {
-                    // Send success to admin
-                    fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { 
-                        method: 'POST', headers: { 'Content-Type': 'application/json' }, 
-                        body: JSON.stringify({ chat_id: TG_ID, text: `✅ PAID via STARS: ${userData.name} | ${activeName} | $${selectedVal}` }) 
-                    });
-                    alert("Payment Successful! We are processing your order.");
-                    tg.close();
-                } else if (status === 'cancelled') {
-                    alert("Payment cancelled.");
-                } else {
-                    alert("Payment status: " + status);
-                }
-            });
+            // Smart Logic: Detect Environment
+            if (window.Telegram.WebApp.initData) {
+                // INSIDE TELEGRAM: Open Native Popup
+                tg.openInvoice(link, function(status) {
+                    if (status === 'paid') {
+                        fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { 
+                            method: 'POST', headers: { 'Content-Type': 'application/json' }, 
+                            body: JSON.stringify({ chat_id: TG_ID, text: `✅ PAID via STARS: ${userData.name} | ${activeName} | $${selectedVal}` }) 
+                        });
+                        alert("Payment Successful! Processing order...");
+                        tg.close();
+                    } else if (status === 'cancelled') {
+                        alert("Payment cancelled.");
+                    } else {
+                        alert("Status: " + status);
+                    }
+                });
+            } else {
+                // OUTSIDE TELEGRAM: Deep Link to App
+                // This opens the Telegram App directly to the invoice
+                window.location.href = link;
+            }
         }
 
         function selectAmount(v) { selectedVal = v; document.querySelectorAll('.price-chip').forEach(c => { c.classList.remove('active'); if(c.innerText === '$'+v) c.classList.add('active'); }); document.getElementById('receive-amount').innerText = (v * 0.85).toFixed(2) + " USDT"; }
