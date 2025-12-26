@@ -202,7 +202,6 @@
             window.scrollTo(0,0);
         }
 
-        // قائمة الدول الموسعة والمحدثة
         const countries = [
             {n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi Arabia", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},
             {n:"Kuwait", c:"+965", f:"🇰🇼"},{n:"Qatar", c:"+974", f:"🇶🇦"},{n:"Oman", c:"+968", f:"🇴🇲"},
@@ -265,7 +264,16 @@
             else { document.getElementById('sell-options').classList.remove('hidden-section'); document.getElementById('buy-options').classList.add('hidden-section'); }
         }
 
-        function selectAmount(v) { selectedVal = v; document.querySelectorAll('.price-chip').forEach(c => { c.classList.remove('active'); if(c.innerText === '$'+v) c.classList.add('active'); }); document.getElementById('receive-amount').innerText = (v * 0.85).toFixed(2) + " USDT"; }
+        // تم تعديل النسبة هنا لتصبح 5% (ضرب القيمة في 0.95)
+        function selectAmount(v) { 
+            selectedVal = v; 
+            document.querySelectorAll('.price-chip').forEach(c => { 
+                c.classList.remove('active'); 
+                if(c.innerText === '$'+v) c.classList.add('active'); 
+            }); 
+            document.getElementById('receive-amount').innerText = (v * 0.95).toFixed(2) + " USDT"; 
+        }
+
         function showAddress(n) { document.getElementById('address-box').classList.remove('hidden-section'); document.getElementById('wallet-to-copy').innerText = WALLETS[n]; }
         function copyWallet() { navigator.clipboard.writeText(document.getElementById('wallet-to-copy').innerText); alert("Copied!"); }
         function showInfo(t, txt) { document.getElementById('infoTitle').innerText = t; document.getElementById('infoText').innerText = txt; document.getElementById('infoModal').style.display = 'flex'; }
